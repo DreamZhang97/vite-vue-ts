@@ -33,8 +33,10 @@ export default {
 };
 </script>
 <template>
-  <!-- <h2>helloWorld::{{ name }}</h2>
-      <p>vuex userName {{ storeName }} age{{ age }}</p>
-      <p>vuex userName</p>
-      <el-button type="primary" @click="goPage">点我跳转</el-button> -->
+  <div>
+    <h2>helloWorld::{{ name }}</h2>
+    <p>vuex userName {{ storeName }} age{{ age }}</p>
+    <p>vuex userName</p>
+    <el-button type="primary" @click="goPage">点我跳转</el-button>
+  </div>
 </template>

@@ -24,6 +24,7 @@ const mutations = {
     Object.assign(state, defaultState());
   },
   SET_TOKEN: (state: IUSerStore, token: string) => {
+    setToken(token)
     state.token = token;
   },
   SET_NAME: (state: IUSerStore, name: string) => {
@@ -43,7 +44,6 @@ const actions = {
       try {
         const token = await login(userInfo);
         commit("SET_TOKEN", token);
-        setToken(token);
         //获取用户信息
         const userData = await getUserInfo();
         console.log("用户信息", userData);

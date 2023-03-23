@@ -1,100 +1,112 @@
-<!--
- * @Description: 
- * @Author: ZHang jia hui
- * @Date: 2023-03-23 15:02:49
- * @LastEditors: ZHang jia hui
- * @LastEditTime: 2023-03-23 17:38:42
--->
 <template>
-  <div class="app-wrapper">
-    <div v-if="sidebar.opened" class="topTitle">{{ getCurrentInstance()?.appContext.config.globalProperties.$title }}
-    </div>
-    <div v-else class="topTitle_active">{{ getCurrentInstance()?.appContext.config.globalProperties.$title[0] }}</div>
-    <sidebar class="sidebar-container" />
+  <div class="app-wrapper" :class="classObj">
+    <div v-if="device === 'mobile' && opened" class="drawer-bg" @click="handleClickOutside" />
+    <!--侧边栏-->
+    <Sidebar />
+    <!--主体内容-->
     <div class="main-container">
-      <div :class="{ 'fixed-header': fixedHeader }">
-        <navbar />
-      </div>
-      <app-main />
+      <!--顶部导航-->
+      <Navbar />
+      <!--主页面-->
+      <AppMain />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { Navbar, Sidebar, AppMain } from "./components/";
-import { computed, ref, getCurrentInstance } from 'vue'
-import { useStore } from 'vuex'
-const store = useStore()
-const sidebar = ref({
-  opened: true
+import { ref, computed, watch, onBeforeMount, onMounted, onBeforeUnmount } from 'vue'
+import { useRoute } from 'vue-router'
+import store from '@/store'
+import Sidebar from './components/Sidebar/index.vue'
+import Navbar from './components/Navbar/index.vue'
+// import TagsView from './components/TagsView/index.vue'
+import AppMain from './components/AppMain.vue'
+
+const route = useRoute()
+const mobileWidth = ref(992)
+
+const opened = computed(() => store.state.app.sidebar.opened)
+const withoutAnimation = computed(() => store.state.app.sidebar.withoutAnimation)
+const device = computed(() => store.state.app.device)
+const classObj = computed(() => {
+  return {
+    hideSidebar: !opened.value,
+    openSidebar: opened.value,
+    withoutAnimation: withoutAnimation.value,
+    mobile: device.value === 'mobile'
+  }
 })
-// const sidebar = computed(() => store.state.app.sidebar);
-const fixedHeader = ref(true)
+
+watch(route, () => {
+  if (device.value === 'mobile' && opened.value) {
+    store.dispatch('app/closeSideBar', false)
+  }
+})
+
+onBeforeMount(() => {
+  window.addEventListener('resize', resizeHandler)
+})
+
+onMounted(() => {
+  const isMob = isMobile()
+  if (isMob) {
+    store.dispatch('app/toggleDevice', 'mobile')
+    store.dispatch('app/closeSideBar', true)
+  }
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', resizeHandler)
+})
+
+const handleClickOutside = () => {
+  store.dispatch('app/closeSideBar', false)
+}
+
+const isMobile = (): boolean => {
+  const rect = document.body.getBoundingClientRect()
+  return rect.width - 1 < mobileWidth.value
+}
+
+const resizeHandler = () => {
+  if (!document.hidden) {
+    const isMob = isMobile()
+    store.dispatch('app/toggleDevice', isMob ? 'mobile' : 'desktop')
+
+    if (isMob) {
+      store.dispatch('app/closeSideBar', true)
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
-@import "./styles/sider.scss";
-// @import "~@/styles/variables.scss";
-
 .app-wrapper {
-  // @include clearfix;
   position: relative;
-  height: 100%;
   width: 100%;
-  background-color: #304156;
+  height: 100%;
+  overflow: hidden;
 
   &.mobile.openSidebar {
     position: fixed;
     top: 0;
   }
 
-  .topTitle {
-    position: absolute;
-    left: 0;
-    width: 227px;
-    height: 50px;
-    line-height: 50px;
-    text-align: center;
-    background-color: #304156;
-    color: #ffffff;
+  .main-container {
+    position: relative;
+    min-height: 100%;
+    margin-left: $sideBarWidth;
+    transition: margin-left 0.28s;
   }
 
-  .topTitle_active {
+  .drawer-bg {
     position: absolute;
-    left: 0;
-    width: 54px;
-    height: 50px;
-    line-height: 50px;
-    text-align: center;
-    background-color: #304156;
-    color: #ffffff;
+    top: 0;
+    z-index: 999;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    opacity: 0.3;
   }
-}
-
-.drawer-bg {
-  background: #000;
-  opacity: 0.3;
-  width: 100%;
-  top: 0;
-  height: 100%;
-  position: absolute;
-  z-index: 999;
-}
-
-.fixed-header {
-  position: fixed;
-  top: 0;
-  right: 0;
-  z-index: 9;
-  width: calc(100% - #{$sideBarWidth});
-  transition: width 0.28s;
-}
-
-.hideSidebar .fixed-header {
-  width: calc(100% - 54px);
-}
-
-.mobile .fixed-header {
-  width: 100%;
 }
 </style>

@@ -44,7 +44,7 @@ const handleLogin = async (ref: FormInstance | undefined) => {
         route.query.redirect
       );
       const redirect: any = route.query && route.query.redirect;
-      router.push({ path: redirect || "/home" });
+      router.push({ path: redirect || "/main" });
     } else {
       ElMessage.warning("请按照要求输入");
       return false;
@@ -62,13 +62,12 @@ const handleLogin = async (ref: FormInstance | undefined) => {
         </el-form-item>
         <el-form-item prop="password">
           <el-input
-            v-model="loginForm.password"
-            placeholder="请输入密码"
-            auto-complete="on"
-            @keyup.enter="handleLogin"
-            :prefix-icon="Lock"
-            show-password
-          ></el-input>
+                    v-model="loginForm.password"
+                    placeholder="请输入密码"
+                    auto-complete="on"
+                    @keyup.enter="handleLogin"
+                    :prefix-icon="Lock"
+                    show-password></el-input>
         </el-form-item>
       </el-form>
       <el-button type="primary" :loading="loading" @click="handleLogin(loginFormRef)">点击登录</el-button>
@@ -78,6 +77,7 @@ const handleLogin = async (ref: FormInstance | undefined) => {
 <style lang="scss" scoped>
 $btnBgColor: #1a4a9b;
 $inputHeight: 38px;
+
 .login-container {
   width: 100%;
   height: 100%;
@@ -87,6 +87,7 @@ $inputHeight: 38px;
   background: url("@/assets/images/login/background_img.png") no-repeat;
   background-size: 100% 100%;
 }
+
 .form_container {
   width: 320px;
   height: 380px;
@@ -96,23 +97,28 @@ $inputHeight: 38px;
   padding: 20px;
   background: #fff;
   border-radius: 10px;
-  > p {
+
+  >p {
     font-size: 30px;
     font-weight: 550;
     font-family: PingFangSC-Regular, PingFang SC;
   }
+
   .el-form {
     .el-form-item {
       ::v-deep .el-form-item__content {
         line-height: $inputHeight;
+
         .el-input {
           .el-input__inner {
             height: $inputHeight;
             line-height: $inputHeight;
           }
+
           .el-input__prefix {
             left: 12px;
             margin-right: 10px;
+
             i {
               font-size: 16px;
               color: $btnBgColor;
@@ -122,11 +128,11 @@ $inputHeight: 38px;
       }
     }
   }
+
   .el-button {
     padding: 10px;
     letter-spacing: 5px;
     background-color: $btnBgColor;
     font-size: 14px;
   }
-}
-</style>
+}</style>

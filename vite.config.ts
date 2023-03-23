@@ -32,6 +32,13 @@ export default defineConfig(({ command, mode }) => {
         "@": path.resolve(__dirname, "/src"),
       },
     },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: `@import "./src/styles/variables.scss";`
+        }
+      }
+    },
     server: {
       proxy: {
         // 接口地址代理

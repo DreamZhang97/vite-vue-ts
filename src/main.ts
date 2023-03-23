@@ -6,7 +6,7 @@
  * @LastEditTime: 2023-03-23 17:09:41
  */
 import { createApp } from "vue";
-import "./style.css";
+import "./styles/index.scss";
 import App from "./App.vue";
 import router from "./router/routes";
 import "@/router/index";

@@ -1,49 +1,69 @@
-<!--
- * @Description: 
- * @Author: ZHang jia hui
- * @Date: 2023-03-23 15:02:49
- * @LastEditors: ZHang jia hui
- * @LastEditTime: 2023-03-23 16:08:15
--->
 <template>
-  <div>
+  <div class="sidebar-container">
+    <div class="logo" @click="$router.push('/')">
+      <img class="logo-img" :src="logoUrl" alt="logo" />
+      <transition name="fade-transform" mode="out-in">
+        <h1 v-show="opened" class="logo-text">{{ getCurrentInstance()?.appContext.config.globalProperties.$title }}
+        </h1>
+      </transition>
+    </div>
     <el-scrollbar wrap-class="scrollbar-wrapper">
-      <el-menu :default-active="activeMenu" :collapse="isCollapse" :background-color="styleObj.menuBg"
-        :text-color="styleObj.menuText" :unique-opened="false" :active-text-color="styleObj.menuActiveText"
-        :collapse-transition="false" mode="vertical">
-        <SidebarItem v-for="route in routes" :key="route.path" :item="route" :base-path="route.path" />
+      <el-menu
+               :router="true"
+               class="v-enter-to"
+               :default-active="$route.path"
+               :collapse="isCollapse"
+               :show-timeout="200"
+               text-color="#fff"
+               background-color="#4a5a74"
+               active-text-color="#409EFF">
+        <SidebarItem v-for="item in constRouterList" :key="item.path" :index="item.path" :nav="item" />
       </el-menu>
     </el-scrollbar>
   </div>
 </template>
-<script setup lang="ts">
-import SidebarItem from "./SidebarItem.vue";
-import { computed, reactive } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { mapGetters } from 'vuex'
-const styleObj = reactive({
-  menuText: '#bfcbd9',
-  menuActiveText: '#409eff',
-  subMenuActiveText: '#f4f4f5',
-  menuBg: '#304156',
-  menuHover: '#263445;',
-  subMenuBg: '#1f2d3d',
-  subMenuHover: '#001528',
-  sideBarWidth: '250px',
-})
-const router = useRouter();
-const routes = computed(() => router.options.routes);
 
-const route = useRoute();
-const activeMenu = computed(() => {
-  const { meta, path } = route;
-  if (meta.activeMenu) {
-    return meta.activeMenu;
-  }
-  return path;
-});
+<script lang="ts" setup>
+import { reactive, ref, computed, onMounted, readonly, getCurrentInstance } from 'vue'
+import { RouteRecordRaw } from 'vue-router'
+import store from '@/store'
+import logoUrl from '@/assets/images/logo.png'
+import SidebarItem from './SidebarItem.vue'
+import { routes } from '@/router/routes'
 
+const constRouterList: RouteRecordRaw[] = reactive(routes)
 
-const isCollapse = computed(() => true)
-// const isCollapse = computed(() => ...mapGetters["sidebar"].opened);
+const opened = computed(() => store.state.app.sidebar.opened)
+const isCollapse = computed(() => !opened.value)
+
 </script>
+
+<style lang="scss" scoped>
+.logo {
+  position: absolute;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  overflow: hidden;
+  text-align: center;
+  cursor: pointer;
+  background-color: #2b2f3a;
+
+  .logo-img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .logo-text {
+    display: inline-block;
+    height: 50px;
+    margin-left: 12px;
+    font-size: 14px;
+    line-height: 50px;
+    color: #fff;
+  }
+}
+</style>
