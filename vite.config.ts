@@ -3,7 +3,7 @@
  * @Author: ZHang jia hui
  * @Date: 2023-03-09 09:52:16
  * @LastEditors: ZHang jia hui
- * @LastEditTime: 2023-03-23 10:41:37
+ * @LastEditTime: 2023-03-24 16:56:50
  */
 import { defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
@@ -35,9 +35,9 @@ export default defineConfig(({ command, mode }) => {
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: `@import "./src/styles/variables.scss";`
-        }
-      }
+          additionalData: `@import "./src/styles/variables.scss";`,
+        },
+      },
     },
     server: {
       proxy: {

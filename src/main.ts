@@ -3,7 +3,7 @@
  * @Author: ZHang jia hui
  * @Date: 2023-03-09 09:52:16
  * @LastEditors: ZHang jia hui
- * @LastEditTime: 2023-03-23 17:09:41
+ * @LastEditTime: 2023-03-25 11:33:49
  */
 import { createApp } from "vue";
 import "./styles/index.scss";
@@ -14,6 +14,8 @@ import store from "./store";
 // 按需加载elementPlus 导致 loading样式 message样式 不生效，因此需要手动导入
 import "element-plus/theme-chalk/el-loading.css";
 import "element-plus/theme-chalk/el-message.css";
+import "element-plus/theme-chalk/el-table.css";
+
 const app = createApp(App);
 
 app.config.globalProperties.$title = "VITE项目";

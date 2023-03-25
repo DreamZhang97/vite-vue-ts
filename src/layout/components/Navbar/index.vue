@@ -1,7 +1,11 @@
 <template>
   <div class="navbar" mode="horizontal">
-    <Hamburger class="hamburger-container" :is-active="opened" @toggleClick="toggleSideBar" />
-    <Breadcrumb class="breadcrumb-container" />
+    <Hamburger
+      class="hamburger-container"
+      :is-active="opened"
+      @toggleClick="toggleSideBar"
+    />
+    <!-- <Breadcrumb class="breadcrumb-container" /> -->
     <div class="right-menu">
       <el-tooltip effect="dark" content="全屏" placement="bottom">
         <Screenfull class="screenfull" />
@@ -14,7 +18,9 @@
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item @click="$router.push('/')">首页</el-dropdown-item>
-            <el-dropdown-item divided @click="editPossword">修改密码</el-dropdown-item>
+            <el-dropdown-item divided @click="editPossword"
+              >修改密码</el-dropdown-item
+            >
             <el-dropdown-item divided @click="loginOut">登出</el-dropdown-item>
           </el-dropdown-menu>
         </template>
@@ -24,32 +30,32 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
-import { useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
-import store from '@/store'
-import Hamburger from './Hamburger.vue'
-import Breadcrumb from './Breadcrumb.vue'
-import Screenfull from './Screenfull.vue'
+import { computed } from "vue";
+import { useRouter } from "vue-router";
+import { ElMessage } from "element-plus";
+import store from "@/store";
+import Hamburger from "./Hamburger.vue";
+import Breadcrumb from "./Breadcrumb.vue";
+import Screenfull from "./Screenfull.vue";
 
-import logo from '@/assets/images/logo.png'
-const router = useRouter()
-const opened = computed(() => store.state.app.sidebar.opened)
-const avatar = computed(() => store.state.user.avatar)
+import logo from "@/assets/images/logo.png";
+const router = useRouter();
+const opened = computed(() => store.state.app.sidebar.opened);
+const avatar = computed(() => store.state.user.avatar);
 
 const toggleSideBar = () => {
-  store.dispatch('app/toggleSideBar')
-}
+  store.dispatch("app/toggleSideBar");
+};
 
 const editPossword = () => {
-  ElMessage.warning('请联系管理员')
-}
+  ElMessage.warning("请联系管理员");
+};
 
 const loginOut = () => {
-  store.dispatch('user/logout').then(() => {
-    router.push('/login')
-  })
-}
+  store.dispatch("user/logout").then(() => {
+    router.push("/login");
+  });
+};
 </script>
 
 <style lang="scss" scoped>
@@ -57,16 +63,16 @@ const loginOut = () => {
   height: 50px;
   overflow: hidden;
   line-height: 50px;
-
+  background-color: #304156;
   .hamburger-container {
     float: left;
     height: 50px;
     padding: 0 10px;
   }
 
-  .breadcrumb-container {
-    float: left;
-  }
+  // .breadcrumb-container {
+  //   float: left;
+  // }
 
   .errLog-container {
     display: inline-block;

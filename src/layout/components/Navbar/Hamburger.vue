@@ -1,5 +1,12 @@
+<!--
+ * @Description: 
+ * @Author: ZHang jia hui
+ * @Date: 2023-03-24 09:36:22
+ * @LastEditors: ZHang jia hui
+ * @LastEditTime: 2023-03-24 15:42:03
+-->
 <template>
-  <div style="padding: 0 15px;" @click="$emit('toggleClick')">
+  <div style="padding: 0 15px" @click="$emit('toggleClick')">
     <svg
       :class="{ 'is-active': isActive }"
       class="hamburger"
@@ -16,19 +23,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent } from "vue";
 export default defineComponent({
-  name: 'Hamburger',
+  name: "Hamburger",
   props: {
     isActive: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   emits: {
-    toggleClick: null
-  }
-})
+    toggleClick: null,
+  },
+});
 </script>
 
 <style scoped>
@@ -38,6 +45,7 @@ export default defineComponent({
   height: 20px;
   vertical-align: middle;
   cursor: pointer;
+  fill: #fff;
 }
 
 .hamburger.is-active {

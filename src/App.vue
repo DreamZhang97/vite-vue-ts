@@ -3,15 +3,16 @@
  * @Author: ZHang jia hui
  * @Date: 2023-03-09 09:52:16
  * @LastEditors: ZHang jia hui
- * @LastEditTime: 2023-03-22 16:50:20
+ * @LastEditTime: 2023-03-24 21:52:16
 -->
-<script setup lang="ts"></script>
-
+<script setup lang="ts">
+import zhCn from "element-plus/dist/locale/zh-cn.mjs";
+const locale = zhCn;
+</script>
 <template>
-  <div class="container">
-    <!-- <h2>这是APP，下面是路由插槽👇</h2> -->
+  <el-config-provider :locale="locale">
     <router-view></router-view>
-  </div>
+  </el-config-provider>
 </template>
 
 <style scoped>

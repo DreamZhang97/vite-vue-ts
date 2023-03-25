@@ -3,7 +3,7 @@
  * @Author: ZHang jia hui
  * @Date: 2023-03-22 16:05:29
  * @LastEditors: ZHang jia hui
- * @LastEditTime: 2023-03-23 13:54:41
+ * @LastEditTime: 2023-03-24 22:01:50
 -->
 <script setup lang="ts">
 import { ref, reactive, nextTick } from "vue";
@@ -20,7 +20,7 @@ const loginForm = reactive({
 });
 const loginFormRef = ref<FormInstance>();
 
-const loginRules = reactive({
+const loginRules = reactive<FormRules>({
   account: [{ required: true, trigger: "blur", message: "请输入用户名" }],
   password: [{ required: true, trigger: "blur", message: "请输入密码" }],
 });
@@ -58,19 +58,29 @@ const handleLogin = async (ref: FormInstance | undefined) => {
       <p>欢迎登录</p>
       <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules">
         <el-form-item prop="account">
-          <el-input v-model="loginForm.account" placeholder="请输入账户" :prefix-icon="User"></el-input>
+          <el-input
+            v-model="loginForm.account"
+            placeholder="请输入账户"
+            :prefix-icon="User"
+          ></el-input>
         </el-form-item>
         <el-form-item prop="password">
           <el-input
-                    v-model="loginForm.password"
-                    placeholder="请输入密码"
-                    auto-complete="on"
-                    @keyup.enter="handleLogin"
-                    :prefix-icon="Lock"
-                    show-password></el-input>
+            v-model="loginForm.password"
+            placeholder="请输入密码"
+            auto-complete="on"
+            @keyup.enter="handleLogin"
+            :prefix-icon="Lock"
+            show-password
+          ></el-input>
         </el-form-item>
       </el-form>
-      <el-button type="primary" :loading="loading" @click="handleLogin(loginFormRef)">点击登录</el-button>
+      <el-button
+        type="primary"
+        :loading="loading"
+        @click="handleLogin(loginFormRef)"
+        >点击登录</el-button
+      >
     </div>
   </div>
 </template>
@@ -98,7 +108,7 @@ $inputHeight: 38px;
   background: #fff;
   border-radius: 10px;
 
-  >p {
+  > p {
     font-size: 30px;
     font-weight: 550;
     font-family: PingFangSC-Regular, PingFang SC;
@@ -135,4 +145,5 @@ $inputHeight: 38px;
     background-color: $btnBgColor;
     font-size: 14px;
   }
-}</style>
+}
+</style>
